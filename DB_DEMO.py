@@ -90,4 +90,28 @@ class Category():
                 except MySQLdb.MySQLError as e:
                     print(f"資料新增失敗：{ e }")
                     return None
+                
+    # 修改資料
+    def category_upodate(id, category_name):
+        connection = Category.create_connection()
+        if not connection:
+            return None
+
+        # step2 SQL update
+        sql = "UPDATE category SET name=%s WHERE category_id=%s"
+
+        # step3 cursor 執行 SQL
+        with connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(sql,(category_name,id))
+                    # step 3-2
+                    connection.commit()
+                    return cursor.rowcount
+                except MySQLdb.MySQLError as e:
+                    print(f"資料修改失敗：{ e }")
+                    return None
+                # 已用 with 就不用再寫此段
+                # finally:
+                #     connection.close()
     
