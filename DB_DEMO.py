@@ -4,8 +4,8 @@ class Category():
     def __init__():
         pass
 
+    # Step1 建立連線
     def create_connection():
-        # Step1 建立連線
         try:
             connection = MySQLdb.connect(
                 host = "localhost",
@@ -17,8 +17,8 @@ class Category():
             print(f"資料庫連線錯誤: {e}")
             return None
 
-
-    def all():
+    # 讀取所有資料
+    def category_all():
         # 其他程式 如爬蟲程式
 
         connection = Category.create_connection()
@@ -40,8 +40,8 @@ class Category():
                     print(f"資料讀取錯誤: {e}")
                     return None
 
-
-    def single(id):
+    # 讀取單筆資料
+    def category_single(id):
         # 其他程式 如爬蟲程式
 
         # Step1 建立連線
@@ -69,3 +69,25 @@ class Category():
                 except MySQLdb.MySQLError as e:
                     print(f"資料讀取錯誤: {e}")
                     return None
+
+    # 新增資料
+    def category_create(category_name):
+        connection = Category.create_connection()
+        if not connection:
+            return None
+
+        # step2 SQL INSERT
+        sql = 'INSERT INTO category (name) VALUES (%s)'
+
+        # step3 cursor 執行 SQL
+        with connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(sql,(category_name,))
+                    # step 3-2
+                    connection.commit()
+                    return cursor.rowcount
+                except MySQLdb.MySQLError as e:
+                    print(f"資料新增失敗：{ e }")
+                    return None
+    
