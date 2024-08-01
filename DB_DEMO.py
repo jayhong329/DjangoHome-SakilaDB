@@ -4,16 +4,24 @@ class Category():
     def __init__():
         pass
 
+    def create_connection():
+        # Step1 建立連線
+        try:
+            connection = MySQLdb.connect(
+                host = "localhost",
+                database = "sakila",
+                user = "root",                    password = "P@ssw0rd"
+            )
+            return connection
+        except MySQLdb.MySQLError as e :
+            print(f"資料庫連線錯誤: {e}")
+            return None
+
+
     def all():
         # 其他程式 如爬蟲程式
 
-        # Step1 建立連線
-        connection = MySQLdb.connect(
-            host = "localhost",
-            database = "sakila",
-            user = "root",
-            password = "P@ssw0rd"
-        )
+        connection = Category.create_connection()
         if not connection:
             return None
         
@@ -37,12 +45,13 @@ class Category():
         # 其他程式 如爬蟲程式
 
         # Step1 建立連線
-        connection = MySQLdb.connect(
-            host = "localhost",
-            database = "sakila",
-            user = "root",
-            password = "P@ssw0rd"
-        )
+        # connection = MySQLdb.connect(
+        #     host = "localhost",
+        #     database = "sakila",
+        #     user = "root",
+        #     password = "P@ssw0rd"
+        # )
+        connection = Category.create_connection()
         if not connection:
             return None
         
