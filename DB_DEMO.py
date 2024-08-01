@@ -104,7 +104,7 @@ class Category():
         with connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(sql,(category_name,id))
+                    cursor.execute(sql,(category_name,id)) # tutple (id, )
                     # step 3-2
                     connection.commit()
                     return cursor.rowcount
@@ -115,3 +115,24 @@ class Category():
                 # finally:
                 #     connection.close()
     
+
+    # 刪除資料
+    def category_delete(id):
+        connection = Category.create_connection()
+        if not connection:
+            return None
+
+        # step2 SQL delete
+        sql = "DELETE FROM category WHERE category_id=%s "
+
+        # step3 cursor 執行 SQL
+        with connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(sql,(id, )) # tutple (id, )
+                    # step 3-2
+                    connection.commit()
+                    return cursor.rowcount
+                except MySQLdb.MySQLError as e:
+                    print(f"資料刪除失敗：{ e }")
+                    return None
